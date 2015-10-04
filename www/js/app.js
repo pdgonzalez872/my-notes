@@ -1,47 +1,68 @@
-var app = angular.module('starter', ['ionic']);
+(function(){
 
-app.controller('ListCtrl', function($scope) {
-
-  $scope.notes = [
+  var notes = [
     {
+      id: '1',
       title: 'First Note',
       description: 'This is my first note.'
     },
     {
+      id: '2',
       title: 'Second Note',
       description: 'This is my second note.'
     }
   ];
 
-});
+  var app = angular.module('starter', ['ionic']);
 
-app.config(function($stateProvider, $urlRouterProvider) {
+    app.config(function($stateProvider, $urlRouterProvider) {
 
-  // adds a state
-  $stateProvider.state('list', {
-    url: '/list',
-    templateUrl: 'templates/list.html'
+      // adds a state
+      $stateProvider.state('list', {
+        url: '/list',
+        templateUrl: 'templates/list.html'
+      });
+
+      // adds another state
+      $stateProvider.state('edit', {
+        url: "/edit/:noteId",
+        templateUrl: "templates/edit.html"
+      });
+
+      // if the url doesn't match anything defined before, then redirect to list.
+      // REDIRECT!
+      $urlRouterProvider.otherwise('/list');
+      });
+
+      function getNote(noteId){
+        for (var i = 0; i < notes.length; i++){
+          if(notes[i].id === noteId){
+            return notes[i];
+          }
+        }
+        return undefined;
+      }
+
+      // uses the scope service as well as the state service
+      app.controller('ListCtrl', function($scope, $state) {
+
+        $scope.notes = notes;
+
+      });
+
+      app.controller('EditCtrl', function($scope, $state){
+        $scope.note = getNote($state.params.noteId);
+    });
+
+  app.run(function($ionicPlatform) {
+    $ionicPlatform.ready(function() {
+      if (window.cordova && window.cordova.plugins.Keyboard) {
+        cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
+      }
+      if (window.StatusBar) {
+        StatusBar.styleDefault();
+      }
+    });
   });
 
-  // adds another state
-  $stateProvider.state('edit', {
-    url: "/edit",
-    templateUrl: "templates/edit.html"
-  });
-
-
-  // if the url doesn't match anything defined before, then redirect to list.
-  // REDIRECT!
-  $urlRouterProvider.otherwise('/list');
-});
-
-app.run(function($ionicPlatform) {
-  $ionicPlatform.ready(function() {
-    if (window.cordova && window.cordova.plugins.Keyboard) {
-      cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
-    }
-    if (window.StatusBar) {
-      StatusBar.styleDefault();
-    }
-  });
-});
+}());
