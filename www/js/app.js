@@ -17,16 +17,23 @@
 
     app.config(function($stateProvider, $urlRouterProvider) {
 
-      // adds a state
+      // adds list/index
       $stateProvider.state('list', {
         url: '/list',
         templateUrl: 'templates/list.html'
       });
 
-      // adds another state
+      $stateProvider.state('add', {
+        url: '/add',
+        templateUrl: 'templates/edit.html',
+        controller: 'AddCtrl'
+      });
+
+      // adds edit state
       $stateProvider.state('edit', {
         url: "/edit/:noteId",
-        templateUrl: "templates/edit.html"
+        templateUrl: "templates/edit.html",
+        controller: 'EditCtrl'
       });
 
       // if the url doesn't match anything defined before, then redirect to list.
@@ -52,10 +59,28 @@
         }
       }
 
+      function createNote(note){
+        notes.push(note);
+      }
+
       // uses the scope service as well as the state service
       app.controller('ListCtrl', function($scope, $state) {
 
         $scope.notes = notes;
+
+      });
+
+      app.controller('AddCtrl', function($scope, $state){
+        $scope.note = {
+          id: new Date().getTime().toString(),
+          title: '',
+          description: ''
+        };
+
+        $scope.save = function(){
+          createNote($scope.note);
+          $state.go('list');
+        }
 
       });
 
@@ -66,7 +91,8 @@
           updateNote($scope.note);
           $state.go('list');
         }
-    });
+      });
+
 
   app.run(function($ionicPlatform) {
     $ionicPlatform.ready(function() {
