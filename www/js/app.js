@@ -35,6 +35,10 @@
 
         $scope.notes = NoteStore.list();
 
+        $scope.remove = function(noteId){
+          NoteStore.remove(noteId);
+        }
+
       });
 
       app.controller('AddCtrl', function($scope, $state, NoteStore){
