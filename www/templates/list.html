@@ -1,19 +1,21 @@
 <!-- must have the ion-view tag, then it is treated as a template -->
-<ion-view view-title="My Notes">
-  <ion-content ng-controller="ListCtrl">
+<ion-view view-title="My Notes" ng-controller="ListCtrl">
+  <ion-content>
     <div class="padding">
       <a href="#/add" class="button button-block button-calm">New Note</a>
     </div>
 
-    <ion-list>
+    <ion-list show-reorder="reordering">
       <!-- replace css tags with these directives -->
       <ion-item
 
       class="item-remove-animate item-icon-right"
       href="#/edit/{{note.id}}"
-      ng-repeat="note in notes">
+      ng-repeat="note in notes track by note.id">
         <h2>{{note.title}}</h2>
         <p>{{note.description}}</p>
+        <ion-reorder-button class="ion-drag"
+          on-reorder="move(note, $fromIndex, $toIndex)"></ion-reorder-button>
         <!-- adds the button -->
         <i class="icon ion-arrow-right-b"></i>
         <ion-option-button class="button-assertive icon-left ion-close-circled"
@@ -22,4 +24,11 @@
     </ion-list>
 
   </ion-content>
+
+  <div class="bar bar-footer bar-stable">
+    <button class="button button-calm icon-left ion-shuffle"
+      ng-click="toggleReordering()">Reorder</button>
+  </div>
+
+
 </ion-view>

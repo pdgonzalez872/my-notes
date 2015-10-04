@@ -29,15 +29,24 @@
       });
 
 
-
       // uses the scope service as well as the state service
       app.controller('ListCtrl', function($scope, $state, NoteStore) {
 
         $scope.notes = NoteStore.list();
 
+        $scope.reordering = false;
+
         $scope.remove = function(noteId){
           NoteStore.remove(noteId);
-        }
+        };
+
+        $scope.move = function(note, fromIndex, toIndex){
+          NoteStore.move(note, fromIndex, toIndex);
+        };
+
+        $scope.toggleReordering = function(){
+          $scope.reordering = !$scope.reordering;
+        };
 
       });
 
