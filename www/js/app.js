@@ -43,6 +43,15 @@
         return undefined;
       }
 
+      function updateNote(note){
+        for (var i = 0; i < notes.length; i++){
+          if (notes[i].id === note.id){
+            notes[i] = note;
+            return;
+          }
+        }
+      }
+
       // uses the scope service as well as the state service
       app.controller('ListCtrl', function($scope, $state) {
 
@@ -51,7 +60,12 @@
       });
 
       app.controller('EditCtrl', function($scope, $state){
-        $scope.note = getNote($state.params.noteId);
+        $scope.note = angular.copy(getNote($state.params.noteId));
+
+        $scope.save = function(){
+          updateNote($scope.note);
+          $state.go('list');
+        }
     });
 
   app.run(function($ionicPlatform) {
