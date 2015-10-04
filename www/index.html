@@ -25,12 +25,18 @@
 
     <ion-pane>
       <ion-header-bar class="bar-stable">
-        <h1 class="title">Ionic Blank Starter</h1>
+        <h1 class="title">My Notes</h1>
       </ion-header-bar>
-      <ion-content>
+      <ion-content ng-controller="ListController">
 
-        
+        <div class="list">
 
+          <a href="#/edit" class="item" ng-repeat="note in notes">
+            <h2>{{note.title}}</h2>
+            <p>{{note.description}}</p>
+          </a>
+
+        </div>
 
       </ion-content>
     </ion-pane>
