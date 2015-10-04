@@ -1,0 +1,11 @@
+<!-- must have the ion-view tag, then it is treated as a template -->
+<ion-view view-title="My Notes">
+  <ion-content ng-controller="ListCtrl">
+    <div class="list">
+      <a href="#/edit" class="item" ng-repeat="note in notes">
+        <h2>{{note.title}}</h2>
+        <p>{{note.description}}</p>
+      </a>
+    </div>
+  </ion-content>
+</ion-view>
